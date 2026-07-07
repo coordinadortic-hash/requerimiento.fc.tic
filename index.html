@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friocosta - Solicitudes TIC</title>
+    <style>
+        /* Modern CSS Reset & Variables */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --azul-principal: #0f2d59; /* Azul Corporativo Friocosta */
+            --azul-electrico: #2563eb; /* Azul de acento dinámico */
+            --azul-claro: #e0f2fe;      /* Fondo gélido suave */
+            --blanco: #ffffff;
+            --gris-fondo: #f1f5f9;
+            --texto-oscuro: #1e293b;
+            --texto-mutado: #64748b;
+            --borde-radio: 16px;
+            --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--texto-oscuro);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+            /* Marca de agua corporativa */
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(135deg, rgba(248, 250, 252, 0.85) 0%, rgba(224, 242, 254, 0.85) 100%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='150' viewBox='0 0 250 150'%3E%3Ctext x='30' y='100' fill='rgba(15, 45, 89, 0.03)' font-family='Segoe UI, sans-serif' font-weight='800' font-size='26' transform='rotate(-25 30 100)'%3EFRIOCOSTA%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        /* Encabezado Premium Friocosta */
+        header {
+            background: linear-gradient(135deg, var(--azul-principal) 0%, #1e40af 100%);
+            color: var(--blanco);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--azul-electrico);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(15, 45, 89, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        header p {
+            color: #93c5fd;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Barra de Navegación Dinámica */
+        .pestanas-nav {
+            display: flex;
+            justify-content: center;
+            background: var(--blanco);
+            max-width: 900px;
+            margin: -25px auto 0 auto;
+            padding: 8px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(15, 45, 89, 0.1);
+            z-index: 10;
+            position: relative;
+            gap: 5px;
+            width: 95%;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--texto-mutado);
+            cursor: pointer;
+            transition: var(--transicion);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--azul-electrico);
+            background-color: var(--azul-claro);
+        }
+
+        .tab-btn.activo {
+            color: var(--blanco);
+            background-color: var(--azul-principal);
+            box-shadow: 0 4px 12px rgba(15, 45, 89, 0.25);
+        }
+
+        /* Contenedor Principal */
+        .contenedor {
+            max-width: 850px;
+            width: 90%;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: var(--borde-radio);
+            box-shadow: 0 20px 40px rgba(15, 45, 89, 0.05);
+            flex: 1;
+            backdrop-filter: blur(8px);
+        }
+
+        .contenedor h2 {
+            font-size: 1.7rem;
+            color: var(--azul-principal);
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contenedor > p {
+            color: var(--texto-mutado);
+            margin-bottom: 30px;
+        }
+
+        .subtitulo-seccion {
+            font-size: 1.1rem;
+            color: var(--azul-electrico);
+            margin: 25px 0 15px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--azul-claro);
+            font-weight: 700;
+        }
+
+        /* Estilos de la sección Consejos (Cards) */
+        .grid-guias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tarjeta-guia {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 22px;
+            transition: var(--transicion);
+            border-top: 5px solid var(--azul-electrico);
+        }
+
+        .tarjeta-guia:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            background-color: var(--blanco);
+        }
+
+        .tarjeta-guia h3 {
+            font-size: 1.15rem;
+            color: var(--azul-principal);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tarjeta-guia p {
+            font-size: 0.92rem;
+            color: var(--texto-oscuro);
+            line-height: 1.5;
+        }
+
+        /* Formularios */
+        .grupo-formulario {
+            margin-bottom: 20px;
+        }
+
+        .grupo-formulario label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .grupo-formulario input, .grupo-formulario select, .grupo-formulario textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background-color: #f8fafc;
+            transition: var(--transicion);
+        }
+
+        .grupo-formulario input:focus, .grupo-formulario select:focus, .grupo-formulario textarea:focus {
+            border-color: var(--azul-electrico);
+            outline: none;
+            background-color: var(--blanco);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+
+        .grupo-formulario input[type="file"] {
+            padding: 12px;
+            background-color: var(--gris-fondo);
+            cursor: pointer;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .grid-accesos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .opcion-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.92rem;
+        }
+
+        .opcion-check input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+        .seccion-modulos-factory {
+            display: none;
+            grid-column: 1 / -1;
+            background-color: var(--blanco);
+            border: 2px dashed var(--azul-electrico);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 8px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .seccion-modulos-factory p {
+            font-size: 0.85rem;
+            color: var(--azul-principal);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .grid-modulos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .texto-opcional {
+            font-size: 0.8rem;
+            color: var(--texto-mutado);
+            font-weight: normal;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        /* Botón Enviar */
+        .btn-enviar {
+            background: linear-gradient(135deg, var(--azul-electrico) 0%, var(--azul-principal) 100%);
+            color: var(--blanco);
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            width: 100%;
+            transition: var(--transicion);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-enviar:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .alerta-info {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 0.92rem;
+            border-left: 5px solid;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .alerta-info strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .p1 { background: #f8fafc; border-color: #cbd5e1; color: #334155; }
+        .p2 { background: #f0fdf4; border-color: #22c55e; color: #166534; }
+        .p3 { background: #fefce8; border-color: #eab308; color: #713f12; }
+        .p4 { background: #fff7ed; border-color: #f97316; color: #c2410c; }
+        .p5 { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+
+        .seccion-computador {
+            display: none;
+            border: 2px solid var(--azul-claro);
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .contenido-formulario { display: none; }
+        .contenido-formulario.activo { display: block; }
+
+        .tarjeta-contacto {
+            background: var(--azul-claro);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        footer {
+            background-color: var(--azul-principal);
+            color: #94a3b8;
+            padding: 25px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-top: 4px solid var(--azul-electrico);
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>❄️ Friocosta TIC ❄️</h1>
+        <p>Plataforma de Autogestión y Soporte Técnico</p>
+    </header>
+
+    <nav class="pestanas-nav">
+        <button class="tab-btn activo" onclick="cambiarPestana('soporte')">🔧 Soporte</button>
+        <button class="tab-btn" onclick="cambiarPestana('guia')">💡 Consejos</button>
+        <button class="tab-btn" onclick="cambiarPestana('compras')">🛒 Compras</button>
+        <button class="tab-btn" onclick="cambiarPestana('usuarios')">👤 Crear Usuario</button>
+        <button class="tab-btn" onclick="cambiarPestana('canales')">💬 Contacto</button>
+    </nav>
+
+    <div class="contenedor">
+        
+        <div id="soporte" class="contenido-formulario activo">
+            <h2>🛠️ Reportar Incidencia Técnica</h2>
+            <p>Por favor, ingresa tus datos corporativos y describe el inconveniente técnico.</p>
+            
+            <form id="form-soporte" onsubmit="enviarFormulario(event, 'Soporte')">
+                <div class="grupo-formulario">
+                    <label>👤 Nombre Completo</label>
+                    <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>💼 Cargo</label>
+                    <input type="text" name="cargo" placeholder="Ej. Coordinador de Logística" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>🏢 Área</label>
+                    <input type="text" name="area" placeholder="Ej. Operaciones, Finanzas" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📍 Ciudad</label>
+                    <input type="text" name="ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📧 Correo Electrónico</label>
+                    <input type="email" name="correo" placeholder="usuario@friocosta.com" required>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="criticidad">🚨 Nivel de Criticidad / Urgencia</label>
+                    <select id="criticidad" name="criticidad" onchange="verificarCriticidadSoporte(this.value)" required>
+                        <option value="" disabled selected>Selecciona el nivel de urgencia...</option>
+                        <option value="Prioridad 1">📅 Prioridad 1 (Planificada)</option>
+                        <option value="Prioridad 2">🟢 Prioridad 2 (Baja)</option>
+                        <option value="Prioridad 3">🟡 Prioridad 3 (Media)</option>
+                        <option value="Prioridad 4">🟠 Prioridad 4 (Alta)</option>
+                        <option value="Prioridad 5">🔴 Prioridad 5 (Crítica)</option>
+                    </select>
+
+                    <div id="msg-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
+                    <div id="msg-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
+                    <div id="msg-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
+                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
+                    <div id="msg-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label>📝 Descripción del Problema</label>
+                    <textarea name="descripcion" placeholder="Describe detalladamente el inconveniente..." required></textarea>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label>📎 Adjuntar Archivo <span class="texto-opcional">Opcional</span></label>
+                    <input type="file" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx">
+                </div>
+
+                <button type="submit" class="btn-enviar">🚀 Enviar Reporte de Soporte</button>
+            </form>
+        </div>
+
+        <div id="guia" class="contenido-formulario">
+            <h2>💡 Consejos de Soluciones Rápidas</h2>
+            <p>Antes de abrir un ticket de soporte, revisa si puedes solucionar tu inconveniente con estas pautas de autogestión corporativa.</p>
+            <div class="grid-guias">
+                <div class="tarjeta-guia"><h3>🏢 ¿Factory no abre?</h3><p>Verifica estar conectado a la red interna corporativa.</p></div>
+                <div class="tarjeta-guia"><h3>🌐 ¿La VPN no conecta?</h3><p>Congelado al 45% indica cambio obligatorio de clave.</p></div>
+                <div class="tarjeta-guia"><h3>📁 ¿No te aparece Google Drive?</h3><p>Busca "Drive" en tu barra de Windows y ábrelo para sincronizar.</p></div>
+                <div class="tarjeta-guia"><h3>🔄 El Reinicio Mágico</h3><p>Reiniciar el sistema refresca la memoria RAM de manera inmediata.</p></div>
+                <div class="tarjeta-guia"><h3>🔌 Cables y Pantalla</h3><p>Asegúrate de que los cables de red y video estén firmemente ajustados.</p></div>
+                <div class="tarjeta-guia"><h3>🧹 Cuidado del Espacio</h3><p>Mantén libre de polvos y sustancias líquidas tu área de trabajo.</p></div>
+            </div>
+        </div>
+
+        <div id="compras" class="contenido-formulario">
+            <h2>🛒 Solicitud de Compra</h2>
+            <p>Ingresa tus datos corporativos y selecciona el implemento que necesitas solicitar.</p>
+            <form id="form-compras" onsubmit="enviarFormulario(event, 'Compras')">
+                <div class="grupo-formulario">
+                    <label>👤 Nombre Completo</label>
+                    <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>💼 Cargo</label>
+                    <input type="text" name="cargo" placeholder="Ej. Coordinador de Logística" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>🏢 Área</label>
+                    <input type="text" name="area" placeholder="Ej. Operaciones, Finanzas" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📍 Ciudad</label>
+                    <input type="text" name="ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📧 Correo Electrónico</label>
+                    <input type="email" name="correo" placeholder="usuario@friocosta.com" required>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label>🖥️ Implemento Requerido</label>
+                    <select id="implemento" name="implemento" onchange="verificarImplemento(this.value)" required>
+                        <option value="" disabled selected>Selecciona una opción...</option>
+                        <option value="COMPUTADOR">💻 COMPUTADOR</option>
+                        <option value="MOUSE">🖱️ MOUSE</option>
+                        <option value="TECLADO">⌨️ TECLADO</option>
+                        <option value="AUDIFONOS">🎧 AUDÍFONOS</option>
+                        <option value="BASE REFRIGERANTE">🧊 BASE REFRIGERANTE</option>
+                        <option value="TONER DE IMPRESORA">🖨️ TÓNER DE IMPRESORA</option>
+                    </select>
+
+                    <div id="msg-computador" class="alerta-info p3">
+                        <strong>ℹ️ Revisión Institucional:</strong> El área de TIC junto a directivos revisarán la solicitud.
+                    </div>
+
+                    <div id="campos-computador" class="seccion-computador">
+                        <div class="grupo-formulario">
+                            <label>⚙️ Programas que utilizarás</label>
+                            <input type="text" id="programa-uso" name="programa_uso" placeholder="Ej. SAP, Factory">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label>🎨 ¿Manejas programas de diseño?</label>
+                            <select name="maneja_diseno">
+                                <option value="No">No</option>
+                                <option value="Sí">Sí</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label>📋 Especificaciones que deseas</label>
+                            <textarea id="especificaciones" name="especificaciones" placeholder="Ej. 16GB RAM..."></textarea>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label>📸 Imagen o PDF del PC actual <span class="texto-opcional">Opcional</span></label>
+                            <input type="file" accept="image/*, .pdf">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label>💡 Justificación de la Solicitud</label>
+                    <textarea name="justificacion" placeholder="Explica detalladamente por qué lo necesitas..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-enviar">📥 Solicitar Compra</button>
+            </form>
+        </div>
+
+        <div id="usuarios" class="contenido-formulario">
+            <h2>👤 Solicitud de Creación de Usuario</h2>
+            <p>Solicita los accesos de personal de nuevo ingreso o traslados.</p>
+            
+            <form id="form-usuarios" onsubmit="enviarFormulario(event, 'Usuarios')">
+                <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
+                <div class="grupo-formulario">
+                    <label>Nombre Completo</label>
+                    <input type="text" name="solicitante_nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>Correo Institucional</label>
+                    <input type="email" name="solicitante_correo" placeholder="tu_usuario@friocosta.com" required>
+                </div>
+
+                <div class="subtitulo-seccion">🆕 Datos del Nuevo Colaborador</div>
+                <div class="grupo-formulario">
+                    <label>Nombre Completo</label>
+                    <input type="text" name="nuevo_nombre" placeholder="Ej. Carlos Mendoza" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>🪪 Documento de Identidad (Cédula)</label>
+                    <input type="text" name="nuevo_cedula" placeholder="Ej. 1067000XXX" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>💼 Cargo a Desempeñar</label>
+                    <input type="text" name="nuevo_cargo" placeholder="Ej. Auxiliar Administrativo" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>🏢 Área asignada</label>
+                    <input type="text" name="nuevo_area" placeholder="Ej. Gestión Humana" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📍 Ciudad Sede</label>
+                    <input type="text" name="nuevo_ciudad" placeholder="Ej. Barranquilla" required>
+                </div>
+                <div class="grupo-formulario">
+                    <label>📅 Fecha de Ingreso</label>
+                    <input type="date" name="fecha_ingreso" required>
+                </div>
+
+                <div class="subtitulo-seccion">🔑 Accesos y Plataformas Requeridas</div>
+                <div class="grupo-formulario">
+                    <label>Selecciona los sistemas donde requiere usuario:</label>
+                    <div class="grid-accesos">
+                        <label class="opcion-check"><input type="checkbox" name="accesos" value="Correo"> 📧 Correo Corporativo</label>
+                        <label class="opcion-check"><input type="checkbox" id="check-factory" name="accesos" value="Factory" onchange="toggleModulosFactory(this.checked)"> 🏢 Sistema Factory</label>
+                        <label class="opcion-check"><input type="checkbox" name="accesos" value="ContaPyme"> 📊 ContaPyme</label>
+                        <label class="opcion-check"><input type="checkbox" name="accesos" value="Yeminus"> ⚡ Yeminus</label>
+                        <label class="opcion-check"><input type="checkbox" name="accesos" value="VPN"> 🌐 Conexión VPN</label>
+
+                        <div id="modulos-factory" class="seccion-modulos-factory">
+                            <p>✔️ Módulos requeridos de Factory:</p>
+                            <div class="grid-modulos">
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Contabilidad"> Contabilidad</label>
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Facturacion"> Facturación</label>
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Compras"> Compras</label>
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Servicio al Cliente"> Servicio al Cliente</label>
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Nomina"> Nómina</label>
+                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Inventario"> Inventario</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label>📝 Observaciones Adicionales <span class="texto-opcional">Opcional</span></label>
+                    <textarea name="observaciones" placeholder="Detalles adicionales..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-enviar">🚀 Enviar Solicitud de Usuario</button>
+            </form>
+        </div>
+
+        <div id="canales" class="contenido-formulario">
+            <h2>💬 Atención Directa</h2>
+            <div class="tarjeta-contacto">
+                <h3>Soporte Friocosta en Tiempo Real</h3>
+                <p>Si es una emergencia total, chatea con nosotros:</p>
+                <a href="https://wa.me/573185438787" class="btn-whatsapp">WhatsApp TIC</a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>❄️ &copy; 2026 Friocosta S.A. | Departamento de TIC ❄️</p>
+    </footer>
+
+    <script>
+        // URL de tu Web App de Google Apps Script ya integrada:
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtiL_YqVp_3JpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8iOQ/exec";
+
+        function cambiarPestana(id) {
+            document.querySelectorAll('.contenido-formulario').forEach(f => f.classList.remove('activo'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+            document.getElementById(id).classList.add('activo');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('activo');
+            }
+        }
+
+        function verificarCriticidadSoporte(valor) {
+            const alertas = document.querySelectorAll('#soporte .alerta-info');
+            alertas.forEach(alerta => alerta.style.display = "none");
+            if (valor === "Prioridad 1") document.getElementById('msg-p1').style.display = "block";
+            if (valor === "Prioridad 2") document.getElementById('msg-p2').style.display = "block";
+            if (valor === "Prioridad 3") document.getElementById('msg-p3').style.display = "block";
+            if (valor === "Prioridad 4") document.getElementById('msg-p4').style.display = "block";
+            if (valor === "Prioridad 5") document.getElementById('msg-p5').style.display = "block";
+        }
+
+        function verificarImplemento(valor) {
+            const msgComputador = document.getElementById('msg-computador');
+            const camposComputador = document.getElementById('campos-computador');
+            if (valor === "COMPUTADOR") {
+                msgComputador.style.display = "block";
+                camposComputador.style.display = "block";
+                document.getElementById('programa-uso').required = true;
+                document.getElementById('especificaciones').required = true;
+            } else {
+                msgComputador.style.display = "none";
+                camposComputador.style.display = "none";
+                document.getElementById('programa-uso').required = false;
+                document.getElementById('especificaciones').required = false;
+            }
+        }
+
+        function toggleModulosFactory(isChecked) {
+            const seccionModulos = document.getElementById('modulos-factory');
+            seccionModulos.style.display = isChecked ? "block" : "none";
+            if (!isChecked) seccionModulos.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        }
+
+        function enviarFormulario(event, pestañaDestino) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const objetoDatos = { targetSheet: pestañaDestino };
+
+            formData.forEach((value, key) => {
+                if (key !== 'accesos' && key !== 'modulos_factory') {
+                    objetoDatos[key] = value;
+                }
+            });
+
+            if (pestañaDestino === 'Usuarios') {
+                const accesosSeleccionados = Array.from(form.querySelectorAll('input[name="accesos"]:checked')).map(cb => cb.value);
+                const modulosSeleccionados = Array.from(form.querySelectorAll('input[name="modulos_factory"]:checked')).map(cb => cb.value);
+                objetoDatos['accesos'] = accesosSeleccionados.join(', ');
+                objetoDatos['modulos_factory'] = modulosSeleccionados.join(', ');
+            }
+
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(objetoDatos)
+            })
+            .then(() => {
+                alert("🚀 ¡Solicitud enviada con éxito y registrada en la pestaña " + pestañaDestino + "!");
+                form.reset();
+                if(pestañaDestino === 'Compras') verificarImplemento('');
+                if(pestañaDestino === 'Usuarios') toggleModulosFactory(false);
+            })
+            .catch(error => {
+                alert("❌ Ocurrió un error al guardar los datos.");
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>
