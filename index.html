@@ -480,7 +480,7 @@
                     <div id="msg-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
                     <div id="msg-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
                     <div id="msg-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
-                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
+                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutes.</div>
                     <div id="msg-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
                 </div>
 
@@ -577,7 +577,7 @@
                         </div>
                         <div class="grupo-formulario">
                             <label>📋 Especificaciones que deseas</label>
-                            <textarea id="especificaciones" name="Specifications" placeholder="Ej. 16GB RAM..."></textarea>
+                            <textarea id="especificaciones" name="Especificaciones" placeholder="Ej. 16GB RAM..."></textarea>
                         </div>
                         <div class="grupo-formulario">
                             <label>📸 Imagen o PDF del PC actual <span class="texto-opcional">Opcional</span></label>
@@ -687,8 +687,8 @@
     </footer>
 
     <script>
-        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT GENERADA EN TU IMPLEMENTACIÓN DE PAGES ⚠️
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtL_YqVp_3jpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8i0Q/exec";
+        // ⚠️ REEMPLAZA ESTA URL POR LA QUE COPIASTE AL HACER LA "NUEVA VERSIÓN" EN EL PASO 1 ⚠️
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtiL_YqVp_3JpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8iOQ/exec";
 
         // Función del Reloj en Tiempo Real Simplificado
         function actualizarReloj() {
@@ -724,7 +724,6 @@
             const camposOtro = document.getElementById('campos-otro-implemento');
             const inputOtro = document.getElementById('input-otro-implemento');
 
-            // Resetear estados dinámicos
             msgComputador.style.display = "none";
             camposComputador.style.display = "none";
             camposOtro.style.display = "none";
@@ -761,7 +760,7 @@
                 }
             });
 
-            // Truco dinámico: Si eligió "OTRO", sobreescribimos el valor del Implemento con lo que escribió a mano
+            // Truco dinámico para "OTRO" periférico en Compras
             if (pestañaDestino === 'Compras' && formData.get('Implemento') === 'OTRO') {
                 const valorEspecificado = document.getElementById('input-otro-implemento').value;
                 objetoDatos['Implemento'] = "OTRO: " + valorEspecificado;
