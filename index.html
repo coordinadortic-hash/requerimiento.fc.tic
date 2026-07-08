@@ -54,24 +54,22 @@
             gap: 12px;
         }
 
-        /* Contenedor del Logo Chévere */
+        /* Contenedor del Logo de letras FC en Blanco y Negrita */
         .logo-container {
             width: 90px;
             height: 90px;
-            background: var(--blanco);
+            background: transparent;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 3px solid var(--azul-electrico);
-            overflow: hidden;
-        }
-
-        .logo-container img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
+            border: 4px solid var(--blanco);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--blanco);
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #1d4ed8 0%, var(--azul-principal) 100%);
         }
 
         header h1 {
@@ -86,7 +84,7 @@
             font-weight: 500;
         }
 
-        /* Reloj Digital en Vivo - Hora de Colombia */
+        /* Reloj Digital en Vivo Simplificado */
         .reloj-colombia {
             background: rgba(0, 0, 0, 0.3);
             padding: 6px 16px;
@@ -372,6 +370,13 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
+        /* Despliegue de campo "Otro" periférico */
+        .seccion-otro-implemento {
+            display: none;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -414,15 +419,13 @@
 <body>
 
     <header>
-        <!-- Logo Chévere Central (Ruta por defecto o inline icon de copo de nieve gélido) -->
-        <div class="logo-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/2910/2910311.png" alt="Logo Friocosta">
-        </div>
+        <!-- Logo con Letras FC en Blanco y Negrita -->
+        <div class="logo-container">FC</div>
         <h1>Friocosta TIC</h1>
         <p>Plataforma de Autogestión y Soporte Técnico</p>
-        <!-- Reloj Colombiano Dinámico -->
+        <!-- Reloj Dinámico Simplificado -->
         <div class="reloj-colombia">
-            🇨🇴 Hora Colombia: <span id="clock">--:--:--</span>
+            ⏰ Hora: <span id="clock">--:--:--</span>
         </div>
     </header>
 
@@ -545,10 +548,19 @@
                         <option value="AUDIFONOS">🎧 AUDÍFONOS</option>
                         <option value="BASE REFRIGERANTE">🧊 BASE REFRIGERANTE</option>
                         <option value="TONER DE IMPRESORA">🖨️ TÓNER DE IMPRESORA</option>
+                        <option value="OTRO">🔍 OTRO (Especificar cuál)</option>
                     </select>
 
                     <div id="msg-computador" class="alerta-info p3">
                         <strong>ℹ️ Revisión Institucional:</strong> El área de TIC junto a directivos revisarán la solicitud.
+                    </div>
+
+                    <!-- Sección dinámica que se despliega si elige "OTRO" -->
+                    <div id="campos-otro-implemento" class="seccion-otro-implemento">
+                        <div class="grupo-formulario">
+                            <label>✍️ ¿Cuál implemento o periférico necesitas?</label>
+                            <input type="text" id="input-otro-implemento" placeholder="Escribe el nombre del implemento aquí...">
+                        </div>
                     </div>
 
                     <div id="campos-computador" class="seccion-computador">
@@ -565,7 +577,7 @@
                         </div>
                         <div class="grupo-formulario">
                             <label>📋 Especificaciones que deseas</label>
-                            <textarea id="especificaciones" name="Especificaciones" placeholder="Ej. 16GB RAM..."></textarea>
+                            <textarea id="especificaciones" name="Specifications" placeholder="Ej. 16GB RAM..."></textarea>
                         </div>
                         <div class="grupo-formulario">
                             <label>📸 Imagen o PDF del PC actual <span class="texto-opcional">Opcional</span></label>
@@ -675,12 +687,12 @@
     </footer>
 
     <script>
-        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT GENERADA EN LA NUEVA IMPLEMENTACIÓN ⚠️
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtiL_YqVp_3JpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8iOQ/exec";
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT GENERADA EN TU IMPLEMENTACIÓN DE PAGES ⚠️
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtL_YqVp_3jpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8i0Q/exec";
 
-        // Función del Reloj en Tiempo Real (Hora Oficial Colombiana en Frontend)
+        // Función del Reloj en Tiempo Real Simplificado
         function actualizarReloj() {
-            const opciones = { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+            const opciones = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
             const horaActual = new Date().toLocaleTimeString("es-CO", opciones);
             document.getElementById("clock").textContent = horaActual;
         }
@@ -709,16 +721,25 @@
         function verificarImplemento(valor) {
             const msgComputador = document.getElementById('msg-computador');
             const camposComputador = document.getElementById('campos-computador');
+            const camposOtro = document.getElementById('campos-otro-implemento');
+            const inputOtro = document.getElementById('input-otro-implemento');
+
+            // Resetear estados dinámicos
+            msgComputador.style.display = "none";
+            camposComputador.style.display = "none";
+            camposOtro.style.display = "none";
+            inputOtro.required = false;
+            document.getElementById('programa-uso').required = false;
+            document.getElementById('especificaciones').required = false;
+
             if (valor === "COMPUTADOR") {
                 msgComputador.style.display = "block";
                 camposComputador.style.display = "block";
                 document.getElementById('programa-uso').required = true;
                 document.getElementById('especificaciones').required = true;
-            } else {
-                msgComputador.style.display = "none";
-                camposComputador.style.display = "none";
-                document.getElementById('programa-uso').required = false;
-                document.getElementById('especificaciones').required = false;
+            } else if (valor === "OTRO") {
+                camposOtro.style.display = "block";
+                inputOtro.required = true;
             }
         }
 
@@ -739,6 +760,12 @@
                     objetoDatos[key] = value;
                 }
             });
+
+            // Truco dinámico: Si eligió "OTRO", sobreescribimos el valor del Implemento con lo que escribió a mano
+            if (pestañaDestino === 'Compras' && formData.get('Implemento') === 'OTRO') {
+                const valorEspecificado = document.getElementById('input-otro-implemento').value;
+                objetoDatos['Implemento'] = "OTRO: " + valorEspecificado;
+            }
 
             if (pestañaDestino === 'Usuarios') {
                 const accesosSeleccionados = Array.from(form.querySelectorAll('input[name="accesos"]:checked')).map(cb => cb.value);
