@@ -30,8 +30,6 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            
-            /* Marca de agua corporativa */
             background-color: #f8fafc;
             background-image: 
                 linear-gradient(135deg, rgba(248, 250, 252, 0.85) 0%, rgba(224, 242, 254, 0.85) 100%),
@@ -40,26 +38,46 @@
             background-attachment: fixed;
         }
 
-        /* Encabezado Premium Friocosta */
+        /* Encabezado Premium Friocosta con Espacio de Logo */
         header {
             background: linear-gradient(135deg, var(--azul-principal) 0%, #1e40af 100%);
             color: var(--blanco);
-            padding: 40px 20px;
+            padding: 30px 20px;
             text-align: center;
             border-bottom: 5px solid var(--azul-electrico);
             position: relative;
             box-shadow: 0 4px 20px rgba(15, 45, 89, 0.15);
-        }
-
-        header h1 {
-            font-size: 2.4rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 12px;
+        }
+
+        /* Contenedor del Logo Chévere */
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            background: var(--blanco);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--azul-electrico);
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         header p {
@@ -68,13 +86,28 @@
             font-weight: 500;
         }
 
+        /* Reloj Digital en Vivo - Hora de Colombia */
+        .reloj-colombia {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #67e8f9;
+            border: 1px solid rgba(103, 233, 249, 0.3);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* Barra de Navegación Dinámica */
         .pestanas-nav {
             display: flex;
             justify-content: center;
             background: var(--blanco);
             max-width: 900px;
-            margin: -25px auto 0 auto;
+            margin: -22px auto 0 auto;
             padding: 8px;
             border-radius: 50px;
             box-shadow: 0 10px 25px rgba(15, 45, 89, 0.1);
@@ -381,8 +414,16 @@
 <body>
 
     <header>
-        <h1>❄️ Friocosta TIC ❄️</h1>
+        <!-- Logo Chévere Central (Ruta por defecto o inline icon de copo de nieve gélido) -->
+        <div class="logo-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/2910/2910311.png" alt="Logo Friocosta">
+        </div>
+        <h1>Friocosta TIC</h1>
         <p>Plataforma de Autogestión y Soporte Técnico</p>
+        <!-- Reloj Colombiano Dinámico -->
+        <div class="reloj-colombia">
+            🇨🇴 Hora Colombia: <span id="clock">--:--:--</span>
+        </div>
     </header>
 
     <nav class="pestanas-nav">
@@ -395,6 +436,7 @@
 
     <div class="contenedor">
         
+        <!-- Pestaña 1: Soporte -->
         <div id="soporte" class="contenido-formulario activo">
             <h2>🛠️ Reportar Incidencia Técnica</h2>
             <p>Por favor, ingresa tus datos corporativos y describe el inconveniente técnico.</p>
@@ -402,28 +444,28 @@
             <form id="form-soporte" onsubmit="enviarFormulario(event, 'Soporte')">
                 <div class="grupo-formulario">
                     <label>👤 Nombre Completo</label>
-                    <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    <input type="text" name="Nombre" placeholder="Ej. Juan Pérez" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>💼 Cargo</label>
-                    <input type="text" name="cargo" placeholder="Ej. Coordinador de Logística" required>
+                    <input type="text" name="Cargo" placeholder="Ej. Coordinador de Logística" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>🏢 Área</label>
-                    <input type="text" name="area" placeholder="Ej. Operaciones, Finanzas" required>
+                    <input type="text" name="Area" placeholder="Ej. Operaciones, Finanzas" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📍 Ciudad</label>
-                    <input type="text" name="ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
+                    <input type="text" name="Ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📧 Correo Electrónico</label>
-                    <input type="email" name="correo" placeholder="usuario@friocosta.com" required>
+                    <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
                 </div>
 
                 <div class="grupo-formulario">
                     <label for="criticidad">🚨 Nivel de Criticidad / Urgencia</label>
-                    <select id="criticidad" name="criticidad" onchange="verificarCriticidadSoporte(this.value)" required>
+                    <select id="criticidad" name="Criticidad" onchange="verificarCriticidadSoporte(this.value)" required>
                         <option value="" disabled selected>Selecciona el nivel de urgencia...</option>
                         <option value="Prioridad 1">📅 Prioridad 1 (Planificada)</option>
                         <option value="Prioridad 2">🟢 Prioridad 2 (Baja)</option>
@@ -441,7 +483,7 @@
 
                 <div class="grupo-formulario">
                     <label>📝 Descripción del Problema</label>
-                    <textarea name="descripcion" placeholder="Describe detalladamente el inconveniente..." required></textarea>
+                    <textarea name="Descripcion" placeholder="Describe detalladamente el inconveniente..." required></textarea>
                 </div>
 
                 <div class="grupo-formulario">
@@ -453,6 +495,7 @@
             </form>
         </div>
 
+        <!-- Pestaña 2: Consejos -->
         <div id="guia" class="contenido-formulario">
             <h2>💡 Consejos de Soluciones Rápidas</h2>
             <p>Antes de abrir un ticket de soporte, revisa si puedes solucionar tu inconveniente con estas pautas de autogestión corporativa.</p>
@@ -466,34 +509,35 @@
             </div>
         </div>
 
+        <!-- Pestaña 3: Compras -->
         <div id="compras" class="contenido-formulario">
             <h2>🛒 Solicitud de Compra</h2>
             <p>Ingresa tus datos corporativos y selecciona el implemento que necesitas solicitar.</p>
             <form id="form-compras" onsubmit="enviarFormulario(event, 'Compras')">
                 <div class="grupo-formulario">
                     <label>👤 Nombre Completo</label>
-                    <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    <input type="text" name="Nombre" placeholder="Ej. Juan Pérez" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>💼 Cargo</label>
-                    <input type="text" name="cargo" placeholder="Ej. Coordinador de Logística" required>
+                    <input type="text" name="Cargo" placeholder="Ej. Coordinador de Logística" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>🏢 Área</label>
-                    <input type="text" name="area" placeholder="Ej. Operaciones, Finanzas" required>
+                    <input type="text" name="Area" placeholder="Ej. Operaciones, Finanzas" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📍 Ciudad</label>
-                    <input type="text" name="ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
+                    <input type="text" name="Ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📧 Correo Electrónico</label>
-                    <input type="email" name="correo" placeholder="usuario@friocosta.com" required>
+                    <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
                 </div>
 
                 <div class="grupo-formulario">
                     <label>🖥️ Implemento Requerido</label>
-                    <select id="implemento" name="implemento" onchange="verificarImplemento(this.value)" required>
+                    <select id="implemento" name="Implemento" onchange="verificarImplemento(this.value)" required>
                         <option value="" disabled selected>Selecciona una opción...</option>
                         <option value="COMPUTADOR">💻 COMPUTADOR</option>
                         <option value="MOUSE">🖱️ MOUSE</option>
@@ -510,18 +554,18 @@
                     <div id="campos-computador" class="seccion-computador">
                         <div class="grupo-formulario">
                             <label>⚙️ Programas que utilizarás</label>
-                            <input type="text" id="programa-uso" name="programa_uso" placeholder="Ej. SAP, Factory">
+                            <input type="text" id="programa-uso" name="Programa_Uso" placeholder="Ej. SAP, Factory">
                         </div>
                         <div class="grupo-formulario">
                             <label>🎨 ¿Manejas programas de diseño?</label>
-                            <select name="maneja_diseno">
+                            <select name="Maneja_Diseno">
                                 <option value="No">No</option>
                                 <option value="Sí">Sí</option>
                             </select>
                         </div>
                         <div class="grupo-formulario">
                             <label>📋 Especificaciones que deseas</label>
-                            <textarea id="especificaciones" name="especificaciones" placeholder="Ej. 16GB RAM..."></textarea>
+                            <textarea id="especificaciones" name="Especificaciones" placeholder="Ej. 16GB RAM..."></textarea>
                         </div>
                         <div class="grupo-formulario">
                             <label>📸 Imagen o PDF del PC actual <span class="texto-opcional">Opcional</span></label>
@@ -532,13 +576,14 @@
 
                 <div class="grupo-formulario">
                     <label>💡 Justificación de la Solicitud</label>
-                    <textarea name="justificacion" placeholder="Explica detalladamente por qué lo necesitas..." required></textarea>
+                    <textarea name="Justificacion" placeholder="Explica detalladamente por qué lo necesitas..." required></textarea>
                 </div>
                 
                 <button type="submit" class="btn-enviar">📥 Solicitar Compra</button>
             </form>
         </div>
 
+        <!-- Pestaña 4: Creación de Usuarios -->
         <div id="usuarios" class="contenido-formulario">
             <h2>👤 Solicitud de Creación de Usuario</h2>
             <p>Solicita los accesos de personal de nuevo ingreso o traslados.</p>
@@ -547,37 +592,37 @@
                 <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
                 <div class="grupo-formulario">
                     <label>Nombre Completo</label>
-                    <input type="text" name="solicitante_nombre" placeholder="Tu nombre" required>
+                    <input type="text" name="Solicitante_Nombre" placeholder="Tu nombre" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>Correo Institucional</label>
-                    <input type="email" name="solicitante_correo" placeholder="tu_usuario@friocosta.com" required>
+                    <input type="email" name="Solicitante_Correo" placeholder="tu_usuario@friocosta.com" required>
                 </div>
 
                 <div class="subtitulo-seccion">🆕 Datos del Nuevo Colaborador</div>
                 <div class="grupo-formulario">
                     <label>Nombre Completo</label>
-                    <input type="text" name="nuevo_nombre" placeholder="Ej. Carlos Mendoza" required>
+                    <input type="text" name="Nuevo_Nombre" placeholder="Ej. Carlos Mendoza" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>🪪 Documento de Identidad (Cédula)</label>
-                    <input type="text" name="nuevo_cedula" placeholder="Ej. 1067000XXX" required>
+                    <input type="text" name="Nuevo_Cedula" placeholder="Ej. 1067000XXX" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>💼 Cargo a Desempeñar</label>
-                    <input type="text" name="nuevo_cargo" placeholder="Ej. Auxiliar Administrativo" required>
+                    <input type="text" name="Nuevo_Cargo" placeholder="Ej. Auxiliar Administrativo" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>🏢 Área asignada</label>
-                    <input type="text" name="nuevo_area" placeholder="Ej. Gestión Humana" required>
+                    <input type="text" name="Nuevo_Area" placeholder="Ej. Gestión Humana" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📍 Ciudad Sede</label>
-                    <input type="text" name="nuevo_ciudad" placeholder="Ej. Barranquilla" required>
+                    <input type="text" name="Nuevo_Ciudad" placeholder="Ej. Barranquilla" required>
                 </div>
                 <div class="grupo-formulario">
                     <label>📅 Fecha de Ingreso</label>
-                    <input type="date" name="fecha_ingreso" required>
+                    <input type="date" name="Fecha_Ingreso" required>
                 </div>
 
                 <div class="subtitulo-seccion">🔑 Accesos y Plataformas Requeridas</div>
@@ -606,13 +651,14 @@
 
                 <div class="grupo-formulario">
                     <label>📝 Observaciones Adicionales <span class="texto-opcional">Opcional</span></label>
-                    <textarea name="observaciones" placeholder="Detalles adicionales..."></textarea>
+                    <textarea name="Observaciones" placeholder="Detalles adicionales..."></textarea>
                 </div>
 
                 <button type="submit" class="btn-enviar">🚀 Enviar Solicitud de Usuario</button>
             </form>
         </div>
 
+        <!-- Pestaña 5: Contacto -->
         <div id="canales" class="contenido-formulario">
             <h2>💬 Atención Directa</h2>
             <div class="tarjeta-contacto">
@@ -629,8 +675,17 @@
     </footer>
 
     <script>
-        // URL de tu Web App de Google Apps Script ya integrada:
+        // ⚠️ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT GENERADA EN LA NUEVA IMPLEMENTACIÓN ⚠️
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtiL_YqVp_3JpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8iOQ/exec";
+
+        // Función del Reloj en Tiempo Real (Hora Oficial Colombiana en Frontend)
+        function actualizarReloj() {
+            const opciones = { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+            const horaActual = new Date().toLocaleTimeString("es-CO", opciones);
+            document.getElementById("clock").textContent = horaActual;
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
 
         function cambiarPestana(id) {
             document.querySelectorAll('.contenido-formulario').forEach(f => f.classList.remove('activo'));
@@ -688,8 +743,8 @@
             if (pestañaDestino === 'Usuarios') {
                 const accesosSeleccionados = Array.from(form.querySelectorAll('input[name="accesos"]:checked')).map(cb => cb.value);
                 const modulosSeleccionados = Array.from(form.querySelectorAll('input[name="modulos_factory"]:checked')).map(cb => cb.value);
-                objetoDatos['accesos'] = accesosSeleccionados.join(', ');
-                objetoDatos['modulos_factory'] = modulosSeleccionados.join(', ');
+                objetoDatos['Accesos'] = accesosSeleccionados.join(', ');
+                objetoDatos['Modulos_Factory'] = modulosSeleccionados.join(', ');
             }
 
             fetch(WEB_APP_URL, {
