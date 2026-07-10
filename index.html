@@ -84,21 +84,6 @@
             font-weight: 500;
         }
 
-        /* Reloj Digital en Vivo Simplificado */
-        .reloj-colombia {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #67e8f9;
-            border: 1px solid rgba(103, 233, 249, 0.3);
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
         /* Barra de Navegación Dinámica */
         .pestanas-nav {
             display: flex;
@@ -419,14 +404,9 @@
 <body>
 
     <header>
-        <!-- Logo con Letras FC en Blanco y Negrita -->
         <div class="logo-container">FC</div>
         <h1>Friocosta TIC</h1>
         <p>Plataforma de Autogestión y Soporte Técnico</p>
-        <!-- Reloj Dinámico Simplificado -->
-        <div class="reloj-colombia">
-            ⏰ Hora: <span id="clock">--:--:--</span>
-        </div>
     </header>
 
     <nav class="pestanas-nav">
@@ -439,9 +419,8 @@
 
     <div class="contenedor">
         
-        <!-- Pestaña 1: Soporte -->
         <div id="soporte" class="contenido-formulario activo">
-            <h2>🛠️ Reportar Incidencia Técnica</h2>
+            <h2>🛠️ Reportar Incidencia Técnico</h2>
             <p>Por favor, ingresa tus datos corporativos y describe el inconveniente técnico.</p>
             
             <form id="form-soporte" onsubmit="enviarFormulario(event, 'Soporte')">
@@ -480,7 +459,7 @@
                     <div id="msg-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
                     <div id="msg-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
                     <div id="msg-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
-                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutes.</div>
+                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
                     <div id="msg-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
                 </div>
 
@@ -498,7 +477,6 @@
             </form>
         </div>
 
-        <!-- Pestaña 2: Consejos -->
         <div id="guia" class="contenido-formulario">
             <h2>💡 Consejos de Soluciones Rápidas</h2>
             <p>Antes de abrir un ticket de soporte, revisa si puedes solucionar tu inconveniente con estas pautas de autogestión corporativa.</p>
@@ -512,7 +490,6 @@
             </div>
         </div>
 
-        <!-- Pestaña 3: Compras -->
         <div id="compras" class="contenido-formulario">
             <h2>🛒 Solicitud de Compra</h2>
             <p>Ingresa tus datos corporativos y selecciona el implemento que necesitas solicitar.</p>
@@ -555,7 +532,6 @@
                         <strong>ℹ️ Revisión Institucional:</strong> El área de TIC junto a directivos revisarán la solicitud.
                     </div>
 
-                    <!-- Sección dinámica que se despliega si elige "OTRO" -->
                     <div id="campos-otro-implemento" class="seccion-otro-implemento">
                         <div class="grupo-formulario">
                             <label>✍️ ¿Cuál implemento o periférico necesitas?</label>
@@ -595,7 +571,6 @@
             </form>
         </div>
 
-        <!-- Pestaña 4: Creación de Usuarios -->
         <div id="usuarios" class="contenido-formulario">
             <h2>👤 Solicitud de Creación de Usuario</h2>
             <p>Solicita los accesos de personal de nuevo ingreso o traslados.</p>
@@ -670,7 +645,6 @@
             </form>
         </div>
 
-        <!-- Pestaña 5: Contacto -->
         <div id="canales" class="contenido-formulario">
             <h2>💬 Atención Directa</h2>
             <div class="tarjeta-contacto">
@@ -687,17 +661,8 @@
     </footer>
 
     <script>
-        // ⚠️ REEMPLAZA ESTA URL POR LA QUE COPIASTE AL HACER LA "NUEVA VERSIÓN" EN EL PASO 1 ⚠️
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtiL_YqVp_3JpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8iOQ/exec";
-
-        // Función del Reloj en Tiempo Real Simplificado
-        function actualizarReloj() {
-            const opciones = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
-            const horaActual = new Date().toLocaleTimeString("es-CO", opciones);
-            document.getElementById("clock").textContent = horaActual;
-        }
-        setInterval(actualizarReloj, 1000);
-        actualizarReloj();
+        // ⚠️ REEMPLAZA ESTA URL POR LA QUE COPIASTE EN EL PASO 1 ⚠️
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwZk_Kq6qapWdZgKXcHeqauU7G6I8jsMlq23i2UZN9azK7mSn3gFKplUyjaZm6S5bBH/exec";
 
         function cambiarPestana(id) {
             document.querySelectorAll('.contenido-formulario').forEach(f => f.classList.remove('activo'));
