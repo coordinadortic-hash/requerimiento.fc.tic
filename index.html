@@ -498,7 +498,7 @@
                             <option value="Cartagena">Cartagena</option>
                             <option value="Bogota">Bogota</option>
                             <option value="Campo Meta">Campo Meta</option>
-                            <option value="Guatemala">Mguatemala</option>
+                            <option value="Mguatemala">Mguatemala</option>
                             <option value="Miami">Miami</option>
                         </select>
                     </div>
@@ -957,7 +957,7 @@
     </footer>
 
     <script>
-        // URL de tu aplicación web vinculada de Apps Script
+        // ⚠️ PEGA AQUÍ TU NUEVA URL DE GOOGLE APPS SCRIPT COPIADA EN EL PASO 1 ⚠️
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwZk_Kq6qapWdZgKXcHeqauU7G6I8jsMlq23i2UZN9azK7mSn3gFKplUyjaZm6S5bBH/exec";
 
         function cambiarPestana(id) {
@@ -969,7 +969,7 @@
             }
         }
 
-        // Control dinámico de las Sub-pestañas internas de Soporte (Local / Remoto)
+        // Control de subpestañas de soporte
         function cambiarSubPestanaSoporte(id) {
             document.querySelectorAll('#soporte .sub-contenido-interno').forEach(sc => sc.classList.remove('activo'));
             document.querySelectorAll('#soporte .sub-tab-btn').forEach(sb => sb.classList.remove('activo'));
@@ -979,7 +979,7 @@
             if(id === 'sub-remoto') document.getElementById('btn-sub-remoto').classList.add('activo');
         }
 
-        // Control dinámico de las Sub-pestañas internas de Usuarios (Crear / Modificar / Baja)
+        // Control de subpestañas de usuarios
         function cambiarSubPestanaUsuario(id) {
             document.querySelectorAll('#usuarios .sub-contenido-interno').forEach(sc => sc.classList.remove('activo'));
             document.querySelectorAll('#usuarios .sub-tab-btn').forEach(sb => sb.classList.remove('activo'));
@@ -990,7 +990,7 @@
             if(id === 'sub-baja') document.getElementById('btn-sub-baja').classList.add('activo');
         }
 
-        // Control de alertas de Criticidad por ID de mensaje dinámico
+        // Control de alertas de Criticidad
         function verificarCriticidadSoporte(valor, prefijo) {
             const alertas = document.querySelectorAll('#soporte .alerta-info');
             alertas.forEach(alerta => alerta.style.display = "none");
@@ -1026,7 +1026,6 @@
             }
         }
 
-        // Control dinámico e inteligente para desplegar Factory de forma aislada
         function toggleModulosFactoryDinamic(elementoCheck, idContenedorModulos) {
             const seccionModulos = document.getElementById(idContenedorModulos);
             seccionModulos.style.display = elementoCheck.checked ? "block" : "none";
@@ -1035,11 +1034,17 @@
             }
         }
 
+        // FUNCIÓN DE ENVÍO DE FORMULARIO CORREGIDA (Calcula la fecha y hora de forma nativa)
         function enviarFormulario(event, pestañaDestino) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
             const objetoDatos = { targetSheet: pestañaDestino };
+
+            // 🕒 CAPTURA AUTOMÁTICA DE FECHA Y HORA COLOMBIANA EN EL FRONTEND
+            const opciones = { timeZone: "America/Bogota", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+            const fechaActualColombia = new Date().toLocaleString("es-CO", opciones);
+            objetoDatos['Fecha_Registro'] = fechaActualColombia; // Se inyecta al JSON de envío
 
             formData.forEach((value, key) => {
                 if (key !== 'accesos' && key !== 'modulos_factory') {
