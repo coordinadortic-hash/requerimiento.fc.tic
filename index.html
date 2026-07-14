@@ -38,7 +38,7 @@
             background-attachment: fixed;
         }
 
-        /* Encabezado Premium Friocosta con Espacio de Logo */
+        /* Encabezado Premium Friocosta */
         header {
             background: linear-gradient(135deg, var(--azul-principal) 0%, #1e40af 100%);
             color: var(--blanco);
@@ -54,7 +54,6 @@
             gap: 12px;
         }
 
-        /* Contenedor del Logo de letras FC en Blanco y Negrita */
         .logo-container {
             width: 90px;
             height: 90px;
@@ -84,7 +83,7 @@
             font-weight: 500;
         }
 
-        /* Barra de Navegación Dinámica */
+        /* Barra de Navegación Dinámica Principal */
         .pestanas-nav {
             display: flex;
             justify-content: center;
@@ -128,6 +127,36 @@
             box-shadow: 0 4px 12px rgba(15, 45, 89, 0.25);
         }
 
+        /* Sub-Navegación Interna Común */
+        .sub-nav-interna {
+            display: flex;
+            background: var(--gris-fondo);
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            gap: 5px;
+        }
+
+        .sub-tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--texto-mutado);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transicion);
+            text-align: center;
+        }
+
+        .sub-tab-btn.activo {
+            background: var(--blanco);
+            color: var(--azul-electrico);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
         /* Contenedor Principal */
         .contenedor {
             max-width: 850px;
@@ -165,7 +194,7 @@
             font-weight: 700;
         }
 
-        /* Estilos de la sección Consejos (Cards) */
+        /* Estilos de la sección Consejos */
         .grid-guias {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -238,6 +267,18 @@
             background-color: var(--gris-fondo);
             cursor: pointer;
             border: 2px dashed #cbd5e1;
+        }
+
+        /* Estilo especial para el input de AnyDesk */
+        .input-anydesk {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-align: center;
+            color: #d32f2f;
+            border: 2px dashed #d32f2f !important;
+            background-color: #fff8f8 !important;
         }
 
         .grid-accesos {
@@ -355,12 +396,15 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* Despliegue de campo "Otro" periférico */
         .seccion-otro-implemento {
             display: none;
             margin-top: 15px;
             animation: fadeIn 0.3s ease-in-out;
         }
+
+        /* Sub-pestañas internas de Usuarios y Soporte */
+        .sub-contenido-interno { display: none; }
+        .sub-contenido-interno.activo { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
@@ -413,68 +457,162 @@
         <button class="tab-btn activo" onclick="cambiarPestana('soporte')">🔧 Soporte</button>
         <button class="tab-btn" onclick="cambiarPestana('guia')">💡 Consejos</button>
         <button class="tab-btn" onclick="cambiarPestana('compras')">🛒 Compras</button>
-        <button class="tab-btn" onclick="cambiarPestana('usuarios')">👤 Crear Usuario</button>
+        <button class="tab-btn" onclick="cambiarPestana('usuarios')">👤 Usuarios</button>
         <button class="tab-btn" onclick="cambiarPestana('canales')">💬 Contacto</button>
     </nav>
 
     <div class="contenedor">
         
         <div id="soporte" class="contenido-formulario activo">
-            <h2>🛠️ Reportar Incidencia Técnico</h2>
-            <p>Por favor, ingresa tus datos corporativos y describe el inconveniente técnico.</p>
+            <h2>🔧 Reportar Incidencia Técnica</h2>
+            <p>Selecciona si el inconveniente ocurre en tu sede física para Soporte Local o si requieres conexión remota inmediata.</p>
             
-            <form id="form-soporte" onsubmit="enviarFormulario(event, 'Soporte')">
-                <div class="grupo-formulario">
-                    <label>👤 Nombre Completo</label>
-                    <input type="text" name="Nombre" placeholder="Ej. Juan Pérez" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>💼 Cargo</label>
-                    <input type="text" name="Cargo" placeholder="Ej. Coordinador de Logística" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>🏢 Área</label>
-                    <input type="text" name="Area" placeholder="Ej. Operaciones, Finanzas" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>📍 Ciudad</label>
-                    <input type="text" name="Ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>📧 Correo Electrónico</label>
-                    <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
-                </div>
+            <div class="sub-nav-interna">
+                <button class="sub-tab-btn activo" id="btn-sub-local" onclick="cambiarSubPestanaSoporte('sub-local')">🏢 Soporte Local</button>
+                <button class="sub-tab-btn" id="btn-sub-remoto" onclick="cambiarSubPestanaSoporte('sub-remoto')">🖥️ Soporte Remoto</button>
+            </div>
 
-                <div class="grupo-formulario">
-                    <label for="criticidad">🚨 Nivel de Criticidad / Urgencia</label>
-                    <select id="criticidad" name="Criticidad" onchange="verificarCriticidadSoporte(this.value)" required>
-                        <option value="" disabled selected>Selecciona el nivel de urgencia...</option>
-                        <option value="Prioridad 1">📅 Prioridad 1 (Planificada)</option>
-                        <option value="Prioridad 2">🟢 Prioridad 2 (Baja)</option>
-                        <option value="Prioridad 3">🟡 Prioridad 3 (Media)</option>
-                        <option value="Prioridad 4">🟠 Prioridad 4 (Alta)</option>
-                        <option value="Prioridad 5">🔴 Prioridad 5 (Crítica)</option>
-                    </select>
+            <div id="sub-local" class="sub-contenido-interno activo">
+                <form id="form-soporte-local" onsubmit="enviarFormulario(event, 'Soporte')">
+                    <input type="hidden" name="Tipo_Soporte" value="LOCAL">
 
-                    <div id="msg-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
-                    <div id="msg-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
-                    <div id="msg-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
-                    <div id="msg-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
-                    <div id="msg-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
-                </div>
+                    <div class="grupo-formulario">
+                        <label>👤 Nombre Completo</label>
+                        <input type="text" name="Nombre" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>💼 Cargo</label>
+                        <input type="text" name="Cargo" placeholder="Ej. Coordinador de Logística" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>🏢 Área</label>
+                        <input type="text" name="Area" placeholder="Ej. Operaciones, Finanzas" required>
+                    </div>
+                    
+                    <div class="grupo-formulario">
+                        <label>📍 Sede / Ciudad Física</label>
+                        <select name="Ciudad" required>
+                            <option value="" disabled selected>Selecciona tu sede...</option>
+                            <option value="Monteria">Monteria</option>
+                            <option value="Barranquilla">Barranquilla</option>
+                            <option value="Cartagena">Cartagena</option>
+                            <option value="Bogota">Bogota</option>
+                            <option value="Campo Meta">Campo Meta</option>
+                            <option value="Guatemala">Mguatemala</option>
+                            <option value="Miami">Miami</option>
+                        </select>
+                    </div>
 
-                <div class="grupo-formulario">
-                    <label>📝 Descripción del Problema</label>
-                    <textarea name="Descripcion" placeholder="Describe detalladamente el inconveniente..." required></textarea>
-                </div>
+                    <div class="grupo-formulario">
+                        <label>📧 Correo Electrónico</label>
+                        <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
+                    </div>
 
-                <div class="grupo-formulario">
-                    <label>📎 Adjuntar Archivo <span class="texto-opcional">Opcional</span></label>
-                    <input type="file" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx">
-                </div>
+                    <div class="grupo-formulario">
+                        <label>🚨 Nivel de Criticidad / Urgencia</label>
+                        <select name="Criticidad" onchange="verificarCriticidadSoporte(this.value, 'msg-local')" required>
+                            <option value="" disabled selected>Selecciona el nivel de urgencia...</option>
+                            <option value="Prioridad 1">📅 Prioridad 1 (Planificada)</option>
+                            <option value="Prioridad 2">🟢 Prioridad 2 (Baja)</option>
+                            <option value="Prioridad 3">🟡 Prioridad 3 (Media)</option>
+                            <option value="Prioridad 4">🟠 Prioridad 4 (Alta)</option>
+                            <option value="Prioridad 5">🔴 Prioridad 5 (Crítica)</option>
+                        </select>
 
-                <button type="submit" class="btn-enviar">🚀 Enviar Reporte de Soporte</button>
-            </form>
+                        <div id="msg-local-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
+                        <div id="msg-local-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
+                        <div id="msg-local-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
+                        <div id="msg-local-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
+                        <div id="msg-local-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📝 Descripción del Problema</label>
+                        <textarea name="Descripcion" placeholder="Describe detalladamente el inconveniente físico o de hardware..." required></textarea>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📎 Adjuntar Evidencia (Foto / PDF) <span class="texto-opcional">Opcional</span></label>
+                        <input type="file" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx">
+                    </div>
+
+                    <button type="submit" class="btn-enviar">🚀 Enviar Soporte Local</button>
+                </form>
+            </div>
+
+            <div id="sub-remoto" class="sub-contenido-interno">
+                <form id="form-soporte-remoto" onsubmit="enviarFormulario(event, 'Soporte')">
+                    <input type="hidden" name="Tipo_Soporte" value="REMOTO">
+
+                    <div class="grupo-formulario">
+                        <label>👤 Nombre Completo</label>
+                        <input type="text" name="Nombre" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>💼 Cargo</label>
+                        <input type="text" name="Cargo" placeholder="Ej. Auxiliar de Cuentas" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>🏢 Área</label>
+                        <input type="text" name="Area" placeholder="Ej. Comercial, Contabilidad" required>
+                    </div>
+                    
+                    <div class="grupo-formulario">
+                        <label>📍 Sede / Ciudad Física</label>
+                        <select name="Ciudad" required>
+                            <option value="" disabled selected>Selecciona tu sede...</option>
+                            <option value="Monteria">Monteria</option>
+                            <option value="Barranquilla">Barranquilla</option>
+                            <option value="Cartagena">Cartagena</option>
+                            <option value="Bogota">Bogota</option>
+                            <option value="Campo Meta">Campo Meta</option>
+                            <option value="Mguatemala">Mguatemala</option>
+                            <option value="Miami">Miami</option>
+                        </select>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📧 Correo Electrónico</label>
+                        <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label style="color: #d32f2f;">🔴 Código de AnyDesk (Nueve dígitos)</label>
+                        <input type="text" name="Codigo_Anydesk" class="input-anydesk" placeholder="123 456 789" 
+                               pattern="[0-9\s]{9,15}" title="Por favor ingresa un código de AnyDesk válido (solo números y espacios)" required>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>🚨 Nivel de Criticidad / Urgencia</label>
+                        <select name="Criticidad" onchange="verificarCriticidadSoporte(this.value, 'msg-remoto')" required>
+                            <option value="" disabled selected>Selecciona el nivel de urgencia...</option>
+                            <option value="Prioridad 1">📅 Prioridad 1 (Planificada)</option>
+                            <option value="Prioridad 2">🟢 Prioridad 2 (Baja)</option>
+                            <option value="Prioridad 3">🟡 Prioridad 3 (Media)</option>
+                            <option value="Prioridad 4">🟠 Prioridad 4 (Alta)</option>
+                            <option value="Prioridad 5">🔴 Prioridad 5 (Crítica)</option>
+                        </select>
+
+                        <div id="msg-remoto-p1" class="alerta-info p1"><strong>📅 Prioridad 1 (Planificada):</strong> Rango de hasta 3 horas.</div>
+                        <div id="msg-remoto-p2" class="alerta-info p2"><strong>🟢 Prioridad 2 (Baja):</strong> Rango menor a 2 horas.</div>
+                        <div id="msg-remoto-p3" class="alerta-info p3"><strong>🟡 Prioridad 3 (Media):</strong> Rango de 30 a 60 minutos.</div>
+                        <div id="msg-remoto-p4" class="alerta-info p4"><strong>🟠 Prioridad 4 (Alta):</strong> Rango menor a 30 minutos.</div>
+                        <div id="msg-remoto-p5" class="alerta-info p5"><strong>🔴 Prioridad 5 (Crítica):</strong> Intervención inmediata (menos de 15 minutos).</div>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📝 Descripción del Problema</label>
+                        <textarea name="Descripcion" placeholder="Describe el error de software o sistema que estás experimentando..." required></textarea>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📎 Adjuntar Captura de Pantalla <span class="texto-opcional">Opcional</span></label>
+                        <input type="file" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx">
+                    </div>
+
+                    <button type="submit" class="btn-enviar">🚀 Enviar Soporte Remoto</button>
+                </form>
+            </div>
         </div>
 
         <div id="guia" class="contenido-formulario">
@@ -506,10 +644,21 @@
                     <label>🏢 Área</label>
                     <input type="text" name="Area" placeholder="Ej. Operaciones, Finanzas" required>
                 </div>
+                
                 <div class="grupo-formulario">
-                    <label>📍 Ciudad</label>
-                    <input type="text" name="Ciudad" placeholder="Ej. Barranquilla, Bogotá" required>
+                    <label>📍 Sede / Ciudad Física</label>
+                    <select name="Ciudad" required>
+                        <option value="" disabled selected>Selecciona tu sede...</option>
+                        <option value="Monteria">Monteria</option>
+                        <option value="Barranquilla">Barranquilla</option>
+                        <option value="Cartagena">Cartagena</option>
+                        <option value="Bogota">Bogota</option>
+                        <option value="Campo Meta">Campo Meta</option>
+                        <option value="Mguatemala">Mguatemala</option>
+                        <option value="Miami">Miami</option>
+                    </select>
                 </div>
+
                 <div class="grupo-formulario">
                     <label>📧 Correo Electrónico</label>
                     <input type="email" name="Correo" placeholder="usuario@friocosta.com" required>
@@ -572,77 +721,224 @@
         </div>
 
         <div id="usuarios" class="contenido-formulario">
-            <h2>👤 Solicitud de Creación de Usuario</h2>
-            <p>Solicita los accesos de personal de nuevo ingreso o traslados.</p>
+            <h2>👤 Gestión de Usuarios y Accesos</h2>
+            <p>Selecciona la opción requerida para tramitar accesos del personal.</p>
             
-            <form id="form-usuarios" onsubmit="enviarFormulario(event, 'Usuarios')">
-                <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
-                <div class="grupo-formulario">
-                    <label>Nombre Completo</label>
-                    <input type="text" name="Solicitante_Nombre" placeholder="Tu nombre" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>Correo Institucional</label>
-                    <input type="email" name="Solicitante_Correo" placeholder="tu_usuario@friocosta.com" required>
-                </div>
+            <div class="sub-nav-interna">
+                <button class="sub-tab-btn activo" id="btn-sub-crear" onclick="cambiarSubPestanaUsuario('sub-crear')">✨ Crear Usuario</button>
+                <button class="sub-tab-btn" id="btn-sub-modificar" onclick="cambiarSubPestanaUsuario('sub-modificar')">🔄 Modificar Usuario</button>
+                <button class="sub-tab-btn" id="btn-sub-baja" onclick="cambiarSubPestanaUsuario('sub-baja')">❌ Dar de Baja</button>
+            </div>
 
-                <div class="subtitulo-seccion">🆕 Datos del Nuevo Colaborador</div>
-                <div class="grupo-formulario">
-                    <label>Nombre Completo</label>
-                    <input type="text" name="Nuevo_Nombre" placeholder="Ej. Carlos Mendoza" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>🪪 Documento de Identidad (Cédula)</label>
-                    <input type="text" name="Nuevo_Cedula" placeholder="Ej. 1067000XXX" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>💼 Cargo a Desempeñar</label>
-                    <input type="text" name="Nuevo_Cargo" placeholder="Ej. Auxiliar Administrativo" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>🏢 Área asignada</label>
-                    <input type="text" name="Nuevo_Area" placeholder="Ej. Gestión Humana" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>📍 Ciudad Sede</label>
-                    <input type="text" name="Nuevo_Ciudad" placeholder="Ej. Barranquilla" required>
-                </div>
-                <div class="grupo-formulario">
-                    <label>📅 Fecha de Ingreso</label>
-                    <input type="date" name="Fecha_Ingreso" required>
-                </div>
+            <div id="sub-crear" class="sub-contenido-interno activo">
+                <form id="form-usuarios-crear" onsubmit="enviarFormulario(event, 'Usuarios')">
+                    <input type="hidden" name="Tipo_Tramite" value="CREACIÓN">
 
-                <div class="subtitulo-seccion">🔑 Accesos y Plataformas Requeridas</div>
-                <div class="grupo-formulario">
-                    <label>Selecciona los sistemas donde requiere usuario:</label>
-                    <div class="grid-accesos">
-                        <label class="opcion-check"><input type="checkbox" name="accesos" value="Correo"> 📧 Correo Corporativo</label>
-                        <label class="opcion-check"><input type="checkbox" id="check-factory" name="accesos" value="Factory" onchange="toggleModulosFactory(this.checked)"> 🏢 Sistema Factory</label>
-                        <label class="opcion-check"><input type="checkbox" name="accesos" value="ContaPyme"> 📊 ContaPyme</label>
-                        <label class="opcion-check"><input type="checkbox" name="accesos" value="Yeminus"> ⚡ Yeminus</label>
-                        <label class="opcion-check"><input type="checkbox" name="accesos" value="VPN"> 🌐 Conexión VPN</label>
+                    <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo del Solicitante</label>
+                        <input type="text" name="Solicitante_Nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Cargo del Solicitante</label>
+                        <input type="text" name="Solicitante_Cargo" placeholder="Tu cargo corporativo" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Correo Institucional del Solicitante</label>
+                        <input type="email" name="Solicitante_Correo" placeholder="tu_usuario@friocosta.com" required>
+                    </div>
 
-                        <div id="modulos-factory" class="seccion-modulos-factory">
-                            <p>✔️ Módulos requeridos de Factory:</p>
-                            <div class="grid-modulos">
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Contabilidad"> Contabilidad</label>
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Facturacion"> Facturación</label>
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Compras"> Compras</label>
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Servicio al Cliente"> Servicio al Cliente</label>
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Nomina"> Nómina</label>
-                                <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Inventario"> Inventario</label>
+                    <div class="subtitulo-seccion">🆕 Datos del Nuevo Colaborador</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="Nuevo_Nombre" placeholder="Ej. Carlos Mendoza" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>🪪 Documento de Identidad (Cédula)</label>
+                        <input type="text" name="Nuevo_Cedula" placeholder="Ej. 1067000XXX" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>💼 Cargo a Desempeñar</label>
+                        <input type="text" name="Nuevo_Cargo" placeholder="Ej. Auxiliar Administrativo" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>🏢 Área Asignada</label>
+                        <input type="text" name="Nuevo_Area" placeholder="Ej. Gestión Humana" required>
+                    </div>
+                    
+                    <div class="grupo-formulario">
+                        <label>📍 Ciudad Sede</label>
+                        <select name="Nuevo_Ciudad" required>
+                            <option value="" disabled selected>Selecciona tu sede...</option>
+                            <option value="Monteria">Monteria</option>
+                            <option value="Barranquilla">Barranquilla</option>
+                            <option value="Cartagena">Cartagena</option>
+                            <option value="Bogota">Bogota</option>
+                            <option value="Campo Meta">Campo Meta</option>
+                            <option value="Mguatemala">Mguatemala</option>
+                            <option value="Miami">Miami</option>
+                        </select>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📅 Fecha de Ingreso</label>
+                        <input type="date" name="Fecha_Ingreso" required>
+                    </div>
+
+                    <div class="subtitulo-seccion">🔑 Accesos y Plataformas Requeridas</div>
+                    <div class="grupo-formulario">
+                        <label>Selecciona los sistemas donde requiere usuario:</label>
+                        <div class="grid-accesos">
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Correo"> 📧 Correo Corporativo</label>
+                            <label class="opcion-check"><input type="checkbox" class="check-factory-cls" name="accesos" value="Factory" onchange="toggleModulosFactoryDinamic(this, 'modulos-factory-crear')"> 🏢 Sistema Factory</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="ContaPyme"> 📊 ContaPyme</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Yeminus"> ⚡ Yeminus</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="VPN"> 🌐 Conexión VPN</label>
+
+                            <div id="modulos-factory-crear" class="seccion-modulos-factory">
+                                <p>✔️ Módulos requeridos de Factory:</p>
+                                <div class="grid-modulos">
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Contabilidad"> Contabilidad</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Facturacion"> Facturación</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Compras"> Compras</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Servicio al Cliente"> Servicio al Cliente</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Nomina"> Nómina</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Inventario"> Inventario</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Proyectos"> 📂 Proyectos</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Produccion"> ⚙️ Producción</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="grupo-formulario">
-                    <label>📝 Observaciones Adicionales <span class="texto-opcional">Opcional</span></label>
-                    <textarea name="Observaciones" placeholder="Detalles adicionales..."></textarea>
-                </div>
+                    <div class="grupo-formulario">
+                        <label>📝 Especificaciones / Observaciones Adicionales</label>
+                        <textarea name="Observaciones" placeholder="Describe aquí los perfiles, permisos especiales o detalles de los accesos..." required></textarea>
+                    </div>
 
-                <button type="submit" class="btn-enviar">🚀 Enviar Solicitud de Usuario</button>
-            </form>
+                    <button type="submit" class="btn-enviar">🚀 Enviar Solicitud de Creación</button>
+                </form>
+            </div>
+
+            <div id="sub-modificar" class="sub-contenido-interno">
+                <form id="form-usuarios-modificar" onsubmit="enviarFormulario(event, 'Usuarios')">
+                    <input type="hidden" name="Tipo_Tramite" value="MODIFICACIÓN">
+
+                    <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo del Solicitante</label>
+                        <input type="text" name="Solicitante_Nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Cargo del Solicitante</label>
+                        <input type="text" name="Solicitante_Cargo" placeholder="Tu cargo corporativo" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Correo Institucional del Solicitante</label>
+                        <input type="email" name="Solicitante_Correo" placeholder="tu_usuario@friocosta.com" required>
+                    </div>
+
+                    <div class="subtitulo-seccion">🔄 Datos del Colaborador a Modificar</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo del Colaborador</label>
+                        <input type="text" name="Nuevo_Nombre" placeholder="Ej. Carlos Mendoza" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Cargo Actual / Nuevo Cargo</label>
+                        <input type="text" name="Nuevo_Cargo" placeholder="Ej. Analista Senior" required>
+                    </div>
+
+                    <div class="subtitulo-seccion">🔑 Accesos y Plataformas Requeridas</div>
+                    <div class="grupo-formulario">
+                        <label>Selecciona los sistemas a modificar / adicionar:</label>
+                        <div class="grid-accesos">
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Correo"> 📧 Correo Corporativo</label>
+                            <label class="opcion-check"><input type="checkbox" class="check-factory-cls" name="accesos" value="Factory" onchange="toggleModulosFactoryDinamic(this, 'modulos-factory-modificar')"> 🏢 Sistema Factory</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="ContaPyme"> 📊 ContaPyme</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Yeminus"> ⚡ Yeminus</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="VPN"> 🌐 Conexión VPN</label>
+
+                            <div id="modulos-factory-modificar" class="seccion-modulos-factory">
+                                <p>✔️ Módulos requeridos de Factory:</p>
+                                <div class="grid-modulos">
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Contabilidad"> Contabilidad</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Facturacion"> Facturación</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Compras"> Compras</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Servicio al Cliente"> Servicio al Cliente</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Nomina"> Nómina</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Inventario"> Inventario</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Proyectos"> 📂 Proyectos</label>
+                                    <label class="opcion-check"><input type="checkbox" name="modulos_factory" value="Produccion"> ⚙️ Producción</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📝 Especificaciones / Observaciones de la Modificación</label>
+                        <textarea name="Observaciones" placeholder="Especifica con detalle los cambios requeridos..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar">🚀 Enviar Solicitud de Modificación</button>
+                </form>
+            </div>
+
+            <div id="sub-baja" class="sub-contenido-interno">
+                <form id="form-usuarios-baja" onsubmit="enviarFormulario(event, 'Usuarios')">
+                    <input type="hidden" name="Tipo_Tramite" value="BAJA / RETIRO">
+
+                    <div class="subtitulo-seccion">👤 Datos del Responsable que Solicita</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo del Solicitante</label>
+                        <input type="text" name="Solicitante_Nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Cargo del Solicitante</label>
+                        <input type="text" name="Solicitante_Cargo" placeholder="Tu cargo corporativo" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>Correo Institucional del Solicitante</label>
+                        <input type="email" name="Solicitante_Correo" placeholder="tu_usuario@friocosta.com" required>
+                    </div>
+
+                    <div class="subtitulo-seccion">❌ Datos del Colaborador a Inactivar</div>
+                    <div class="grupo-formulario">
+                        <label>Nombre Completo del Colaborador</label>
+                        <input type="text" name="Nuevo_Nombre" placeholder="Nombre de quien sale de la empresa" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>🪪 Documento de Identidad (Cédula)</label>
+                        <input type="text" name="Nuevo_Cedula" placeholder="Cédula del colaborador" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>💼 Cargo</label>
+                        <input type="text" name="Nuevo_Cargo" placeholder="Cargo que desempeñaba" required>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label>📅 Fecha de Retiro / Inactivación</label>
+                        <input type="date" name="Fecha_Ingreso" required>
+                    </div>
+
+                    <div class="subtitulo-seccion">🔑 Accesos a Desactivar de Inmediato</div>
+                    <div class="grupo-formulario">
+                        <label>Selecciona las plataformas a inhabilitar:</label>
+                        <div class="grid-accesos">
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Correo"> 📧 Correo Corporativo</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Factory"> 🏢 Sistema Factory</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="ContaPyme"> 📊 ContaPyme</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="Yeminus"> ⚡ Yeminus</label>
+                            <label class="opcion-check"><input type="checkbox" name="accesos" value="VPN"> 🌐 Conexión VPN</label>
+                        </div>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label>📝 Observaciones / Instrucciones de Seguridad</label>
+                        <textarea name="Observaciones" placeholder="Por favor especifica si requieres redirección de correos, copia de seguridad de Drive o detalles adicionales..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar">🚨 Enviar Solicitud de Baja</button>
+                </form>
+            </div>
         </div>
 
         <div id="canales" class="contenido-formulario">
@@ -661,8 +957,8 @@
     </footer>
 
     <script>
-        // ⚠️ REEMPLAZA ESTA URL POR LA QUE COPIASTE EN EL PASO 1 ⚠️
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwZk_Kq6qapWdZgKXcHeqauU7G6I8jsMlq23i2UZN9azK7mSn3gFKplUyjaZm6S5bBH/exec";
+        // URL de tu aplicación web vinculada de Apps Script
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz50Ea8yXm4GHgemAe3DtL_YqVp_3jpfAFKe0uMBAO_VJQghABN23nC__WdVugJB8i0Q/exec";
 
         function cambiarPestana(id) {
             document.querySelectorAll('.contenido-formulario').forEach(f => f.classList.remove('activo'));
@@ -673,14 +969,37 @@
             }
         }
 
-        function verificarCriticidadSoporte(valor) {
+        // Control dinámico de las Sub-pestañas internas de Soporte (Local / Remoto)
+        function cambiarSubPestanaSoporte(id) {
+            document.querySelectorAll('#soporte .sub-contenido-interno').forEach(sc => sc.classList.remove('activo'));
+            document.querySelectorAll('#soporte .sub-tab-btn').forEach(sb => sb.classList.remove('activo'));
+            
+            document.getElementById(id).classList.add('activo');
+            if(id === 'sub-local') document.getElementById('btn-sub-local').classList.add('activo');
+            if(id === 'sub-remoto') document.getElementById('btn-sub-remoto').classList.add('activo');
+        }
+
+        // Control dinámico de las Sub-pestañas internas de Usuarios (Crear / Modificar / Baja)
+        function cambiarSubPestanaUsuario(id) {
+            document.querySelectorAll('#usuarios .sub-contenido-interno').forEach(sc => sc.classList.remove('activo'));
+            document.querySelectorAll('#usuarios .sub-tab-btn').forEach(sb => sb.classList.remove('activo'));
+            
+            document.getElementById(id).classList.add('activo');
+            if(id === 'sub-crear') document.getElementById('btn-sub-crear').classList.add('activo');
+            if(id === 'sub-modificar') document.getElementById('btn-sub-modificar').classList.add('activo');
+            if(id === 'sub-baja') document.getElementById('btn-sub-baja').classList.add('activo');
+        }
+
+        // Control de alertas de Criticidad por ID de mensaje dinámico
+        function verificarCriticidadSoporte(valor, prefijo) {
             const alertas = document.querySelectorAll('#soporte .alerta-info');
             alertas.forEach(alerta => alerta.style.display = "none");
-            if (valor === "Prioridad 1") document.getElementById('msg-p1').style.display = "block";
-            if (valor === "Prioridad 2") document.getElementById('msg-p2').style.display = "block";
-            if (valor === "Prioridad 3") document.getElementById('msg-p3').style.display = "block";
-            if (valor === "Prioridad 4") document.getElementById('msg-p4').style.display = "block";
-            if (valor === "Prioridad 5") document.getElementById('msg-p5').style.display = "block";
+            
+            if (valor === "Prioridad 1") document.getElementById(prefijo + '-p1').style.display = "block";
+            if (valor === "Prioridad 2") document.getElementById(prefijo + '-p2').style.display = "block";
+            if (valor === "Prioridad 3") document.getElementById(prefijo + '-p3').style.display = "block";
+            if (valor === "Prioridad 4") document.getElementById(prefijo + '-p4').style.display = "block";
+            if (valor === "Prioridad 5") document.getElementById(prefijo + '-p5').style.display = "block";
         }
 
         function verificarImplemento(valor) {
@@ -707,10 +1026,13 @@
             }
         }
 
-        function toggleModulosFactory(isChecked) {
-            const seccionModulos = document.getElementById('modulos-factory');
-            seccionModulos.style.display = isChecked ? "block" : "none";
-            if (!isChecked) seccionModulos.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        // Control dinámico e inteligente para desplegar Factory de forma aislada
+        function toggleModulosFactoryDinamic(elementoCheck, idContenedorModulos) {
+            const seccionModulos = document.getElementById(idContenedorModulos);
+            seccionModulos.style.display = elementoCheck.checked ? "block" : "none";
+            if (!elementoCheck.checked) {
+                seccionModulos.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
         }
 
         function enviarFormulario(event, pestañaDestino) {
@@ -725,7 +1047,6 @@
                 }
             });
 
-            // Truco dinámico para "OTRO" periférico en Compras
             if (pestañaDestino === 'Compras' && formData.get('Implemento') === 'OTRO') {
                 const valorEspecificado = document.getElementById('input-otro-implemento').value;
                 objetoDatos['Implemento'] = "OTRO: " + valorEspecificado;
@@ -748,7 +1069,10 @@
                 alert("🚀 ¡Solicitud enviada con éxito y registrada en la pestaña " + pestañaDestino + "!");
                 form.reset();
                 if(pestañaDestino === 'Compras') verificarImplemento('');
-                if(pestañaDestino === 'Usuarios') toggleModulosFactory(false);
+                if(pestañaDestino === 'Usuarios') {
+                    if(document.getElementById('modulos-factory-crear')) document.getElementById('modulos-factory-crear').style.display = "none";
+                    if(document.getElementById('modulos-factory-modificar')) document.getElementById('modulos-factory-modificar').style.display = "none";
+                }
             })
             .catch(error => {
                 alert("❌ Ocurrió un error al guardar los datos.");
